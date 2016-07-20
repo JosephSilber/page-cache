@@ -26,7 +26,7 @@ The solution? Full page caching. Using the middleware included in this package, 
 
 Install the `page-cache` package with composer:
 
-```bash
+```
 $ composer require silber/page-cache
 ```
 
