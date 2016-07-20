@@ -20,13 +20,13 @@ While static site builders such as [Jekyll](https://jekyllrb.com/) and [Jigsaw](
 
 That said, for truly static pages on a site there really is no reason to have to boot up a full PHP app just to serve a static page. Serving a simple HTML page from disk is infinitely faster and less taxing on the server.
 
-The solution? Full page caching. Using the middleware included in this package, you can selectively cache the response for any given request to disk, so that subsequent calls to the same page can be served directly as a static HTML page!
+The solution? Full page caching. Using the middleware included in this package, you can selectively cache the response to disk for any given request. Subsequent calls to the same page will be served directly as a static HTML page!
 
 ## Installation
 
-Simply install the `page-cache` package with composer:
+Install the `page-cache` package with composer:
 
-```
+```bash
 $ composer require silber/page-cache
 ```
 
@@ -113,4 +113,4 @@ If you're using [Forge](https://forge.laravel.com)'s Quick Deploy feature, you s
 
 ## License
 
-Bouncer is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+The Page Cache package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
