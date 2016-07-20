@@ -109,7 +109,7 @@ php artisan page-cache:clear
 
 As a rule of thumb, it's good practice to add this to your deployment script. That way, whenever you push an update to your site the page cache will be automatically cleared.
 
-If you're using [Forge](https://forge.laravel.com)'s Quick Deploy feature, you should add this line to the Deploy Script for your site.
+If you're using [Forge](https://forge.laravel.com)'s Quick Deploy feature, you should add this line to the Deploy Script for your site. This'll ensure that the cache is cleared whenever you push an update to your site.
 
 ## License
 
