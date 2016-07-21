@@ -42,16 +42,7 @@ Silber\PageCache\LaravelServiceProvider::class,
 
 ### Middleware
 
-Open `app/Http/Kernel.php` and add a new mapping to the `routeMiddleware` property:
-
-```php
-protected $routeMiddleware = [
-    'page-cache' => Silber\PageCache\Middleware\CacheResponse::class,
-    /* ... keep the existing mappings here */
-];
-```
-
-If you want to cache _all_ successful GET requests, you can instead add it to the `web` middleware group:
+Open `app/Http/Kernel.php` and add a new item to the `web` middleware group:
 
 ```php
 protected $middlewareGroups = [
@@ -63,6 +54,17 @@ protected $middlewareGroups = [
 ```
 
 The middleware is smart enough to only cache responses with a 200 HTTP status code, and only for GET requests.
+
+If you want to selectively cache only specific requests to your site, you should instead add a new mapping to the `routeMiddleware` property:
+
+```php
+protected $routeMiddleware = [
+    'page-cache' => Silber\PageCache\Middleware\CacheResponse::class,
+    /* ... keep the existing mappings here */
+];
+```
+
+Once registered, you can then [use this middleware for individual routes](#using-the-middleware).
 
 ### URL rewriting
 
@@ -92,7 +94,9 @@ In order to serve the static files directly once they've been cached, you need t
 
 ### Using the middleware
 
-> **Note:** If you've added the middleware to the global `web` group, you can skip this part entirely.
+> **Note:** If you've added the middleware to the global `web` group, then all successful GET requests will automatically be cached. No need to put the middleware again directly on the route.
+> 
+> If you instead registered it as a route middleware, you should use the middleware on whichever routes you want to be cached.
 
 To cache the response of a given request, use the `page-cache` middleware:
 
