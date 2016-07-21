@@ -7,6 +7,7 @@ This package allows you to easily cache responses as static files on disk for li
   - [Service Provider](#service-provider)
   - [Middleware](#middleware)
   - [URL rewriting](#url-rewriting)
+  - [Ignoring the cached files](#ignoring-the-cached-files)
 - [Usage](#usage)
   - [Using the middleware](#using-the-middleware)
   - [Clearing the cache](#clearing-the-cache)
@@ -55,7 +56,7 @@ protected $middlewareGroups = [
 
 The middleware is smart enough to only cache responses with a 200 HTTP status code, and only for GET requests.
 
-If you want to selectively cache only specific requests to your site, you should instead add a new mapping to the `routeMiddleware` property:
+If you want to selectively cache only specific requests to your site, you should instead add a new mapping to the `routeMiddleware` array:
 
 ```php
 protected $routeMiddleware = [
@@ -64,7 +65,7 @@ protected $routeMiddleware = [
 ];
 ```
 
-Once registered, you can then [use this middleware for individual routes](#using-the-middleware).
+Once registered, you can then [use this middleware on individual routes](#using-the-middleware).
 
 ### URL rewriting
 
@@ -89,6 +90,14 @@ In order to serve the static files directly once they've been cached, you need t
     RewriteCond %{DOCUMENT_ROOT}/page-cache%{REQUEST_URI}.html -f
     RewriteRule . page-cache%{REQUEST_URI}.html [L]
     ```
+
+### Ignoring the cached files
+
+To make sure you don't commit your locally cached files to your git repository, add this line to your `.gitignore` file:
+
+```
+/public/page-cache
+```
 
 ## Usage
 
