@@ -16,11 +16,13 @@ This package allows you to easily cache responses as static files on disk for li
 
 ## Introduction
 
-While static site builders such as [Jekyll](https://jekyllrb.com/) and [Jigsaw](http://jigsaw.tighten.co/) are extremely popular these days, some still prefer to build dynamic PHP sites. This allows them to easily add dynamic functionality wherever needed, and also means that there's no build step involved in pushing updates to the site.
+While static site builders such as [Jekyll](https://jekyllrb.com/) and [Jigsaw](http://jigsaw.tighten.co/) are extremely popular these days, dynamic PHP sites still offer a lot of value even for a site that is mostly static. A proper PHP site allows you to easily add dynamic functionality wherever needed, and also means that there's no build step involved in pushing updates to the site.
 
 That said, for truly static pages on a site there really is no reason to have to boot up a full PHP app just to serve a static page. Serving a simple HTML page from disk is infinitely faster and less taxing on the server.
 
-The solution? Full page caching. Using the middleware included in this package, you can selectively cache the response to disk for any given request. Subsequent calls to the same page will be served directly as a static HTML page!
+The solution? Full page caching.
+
+Using the middleware included in this package, you can selectively cache the response to disk for any given request. Subsequent calls to the same page will be served directly as a static HTML page!
 
 ## Installation
 
