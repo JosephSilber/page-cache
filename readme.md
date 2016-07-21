@@ -68,21 +68,23 @@ The middleware is smart enough to only cache responses with a 200 HTTP status co
 
 In order to serve the static files directly once they've been cached, you need to properly configure your web server to check for those static files.
 
-If you're using **nginx**, you should update your `location` block's `try_files` directive to include a check in the `page-cache` directory:
+- **For nginx**
+    Update your `location` block's `try_files` directive to include a check in the `page-cache` directory:
 
-```nginxconf
-location / {
-    try_files $uri $uri/ /page-cache/$uri.html /index.php?$query_string;
-}
-```
+    ```nginxconf
+    location / {
+        try_files $uri $uri/ /page-cache/$uri.html /index.php?$query_string;
+    }
+    ```
 
-If you're using **apache**, add the following before the block labeled `Handle Front Controller`:
+- **For apache**
+    Add the following before the block labeled `Handle Front Controller`:
 
-```apacheconf
-# Serve Cached Page If Available...
-RewriteCond %{DOCUMENT_ROOT}/page-cache%{REQUEST_URI}.html -f
-RewriteRule . page-cache%{REQUEST_URI}.html [L]
-```
+    ```apacheconf
+    # Serve Cached Page If Available...
+    RewriteCond %{DOCUMENT_ROOT}/page-cache%{REQUEST_URI}.html -f
+    RewriteRule . page-cache%{REQUEST_URI}.html [L]
+    ```
 
 ## Usage
 
