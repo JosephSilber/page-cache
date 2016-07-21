@@ -103,7 +103,7 @@ Route::get('posts/{slug}', [
 ]);
 ```
 
-Every post will now be cached to a file under the `public/page-cache` directory, closely matching the URL structure of the request. All subsequent  requests for this post will be served directly from disk, not even hitting your app.
+Every post will now be cached to a file under the `public/page-cache` directory, closely matching the URL structure of the request. All subsequent  requests for this post will be served directly from disk, never even hitting your app!
 
 ### Clearing the cache
 
@@ -113,10 +113,10 @@ Since the responses are cached to disk as static files, any updates to those pag
 php artisan page-cache:clear
 ```
 
-As a rule of thumb, it's good practice to add this to your deployment script. That way, whenever you push an update to your site the page cache will be automatically cleared.
+As a rule of thumb, it's good practice to add this to your deployment script. That way, whenever you push an update to your site the page cache will automatically be cleared.
 
 If you're using [Forge](https://forge.laravel.com)'s Quick Deploy feature, you should add this line to the end of your Deploy Script. This'll ensure that the cache is cleared whenever you push an update to your site.
 
 ## License
 
-The Page Cache package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+The Page Cache package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
