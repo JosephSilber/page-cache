@@ -69,6 +69,7 @@ The middleware is smart enough to only cache responses with a 200 HTTP status co
 In order to serve the static files directly once they've been cached, you need to properly configure your web server to check for those static files.
 
 - **For nginx**
+
     Update your `location` block's `try_files` directive to include a check in the `page-cache` directory:
 
     ```nginxconf
@@ -78,6 +79,7 @@ In order to serve the static files directly once they've been cached, you need t
     ```
 
 - **For apache**
+
     Add the following before the block labeled `Handle Front Controller`:
 
     ```apacheconf
