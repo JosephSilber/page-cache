@@ -83,7 +83,7 @@ In order to serve the static files directly once they've been cached, you need t
 
 - **For apache:**
 
-    Add the following before the block labeled `Handle Front Controller`:
+    Open `public/.htaccess` and add the following before the block labeled `Handle Front Controller`:
 
     ```apacheconf
     # Serve Cached Page If Available...
