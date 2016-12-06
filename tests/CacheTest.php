@@ -109,6 +109,18 @@ class CacheTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('/site/public/page-cache/baz/', $this->cache->getCachePath('baz'));
     }
 
+    public function testCachesRootToSpecialFilename()
+    {
+        $this->files->shouldReceive('makeDirectory')->once()
+                    ->with('/page-cache/', 0775, true, true);
+
+        $this->files->shouldReceive('put')->once()
+                    ->with('/page-cache/pc__index__pc.html', 'content', true);
+
+        $this->cache->setCachePath('/page-cache');
+        $this->cache->cache(Request::create('/', 'GET'), Response::create('content'));
+    }
+
     /**
      * Assert that the given request/response pair are cached.
      *
