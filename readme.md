@@ -76,6 +76,10 @@ In order to serve the static files directly once they've been cached, you need t
     Update your `location` block's `try_files` directive to include a check in the `page-cache` directory:
 
     ```nginxconf
+    location = / {
+        try_files /page-cache/pc__index__pc.html /index.php?$query_string;
+    }
+
     location / {
         try_files $uri $uri/ /page-cache/$uri.html /index.php?$query_string;
     }
