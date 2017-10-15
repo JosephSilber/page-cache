@@ -117,10 +117,7 @@ To make sure you don't commit your locally cached files to your git repository, 
 To cache the response of a given request, use the `page-cache` middleware:
 
 ```php
-Route::get('posts/{slug}', [
-    'uses' => 'PostController@show',
-    'middleware' => 'page-cache',
-]);
+Route::middleware('page-cache')->get('posts/{slug}', 'PostController@show');
 ```
 
 Every post will now be cached to a file under the `public/page-cache` directory, closely matching the URL structure of the request. All subsequent  requests for this post will be served directly from disk, never even hitting your app!
