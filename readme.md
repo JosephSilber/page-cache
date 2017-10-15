@@ -35,6 +35,8 @@ $ composer require silber/page-cache
 
 ### Service Provider
 
+> **Note**: If you're using Laravel 5.5+, the service provider will be registered automatically. You can simply skip this step entirely.
+
 Open `config/app.php` and add a new item to the `providers` array:
 
 ```php

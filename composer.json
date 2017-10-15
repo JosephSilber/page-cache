@@ -30,5 +30,12 @@
     },
     "suggest": {
         "illuminate/console": "Allows clearing the cache via artisan"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Silber\\PageCache\\LaravelServiceProvider"
+            ],
+        }
     }
 }
