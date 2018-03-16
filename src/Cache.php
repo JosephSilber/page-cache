@@ -129,6 +129,16 @@ class Cache
     }
 
     /**
+     * Remove a singles file on the cache directory.
+     *
+     * @return bool
+     */
+    public function delete($file)
+    {
+        return $this->files->delete($this->getCachePath() . $file);
+    }
+
+    /**
      * Fully clear the cache directory.
      *
      * @return bool
