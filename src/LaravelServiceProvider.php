@@ -4,6 +4,7 @@ namespace Silber\PageCache;
 
 use Illuminate\Support\ServiceProvider;
 use Silber\PageCache\Console\ClearCache;
+use Silber\PageCache\Console\DeleteCache;
 
 class LaravelServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,7 @@ class LaravelServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands(ClearCache::class);
+        $this->commands(DeleteCache::class);
 
         $this->app->singleton(Cache::class, function () {
             $instance = new Cache($this->app->make('files'));
