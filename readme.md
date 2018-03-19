@@ -136,13 +136,11 @@ As a rule of thumb, it's good practice to add this to your deployment script. Th
 
 If you're using [Forge](https://forge.laravel.com)'s Quick Deploy feature, you should add this line to the end of your Deploy Script. This'll ensure that the cache is cleared whenever you push an update to your site.
 
-You can remove a single file from cache using
+If you want more granular control, you can pass a URL slug to the command, to only delete the cached version of the page at the given URL:
 
 ```
-php artisan page-cache:delete {filename}
+php artisan page-cache:clear {slug}
 ```
-
-This is a good option to use when you update some records and don't want to refresh all cache.
 
 ## License
 

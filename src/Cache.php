@@ -68,12 +68,12 @@ class Cache
     /**
      * Gets the path to the cache directory.
      *
-     * @param  string  $path
+     * @param  string  ...$paths
      * @return string
      *
      * @throws \Exception
      */
-    public function getCachePath($path = '')
+    public function getCachePath()
     {
         $base = $this->cachePath ? $this->cachePath : $this->getDefaultCachePath();
 
@@ -81,13 +81,28 @@ class Cache
             throw new Exception('Cache path not set.');
         }
 
-        return $base.'/'.($path ? trim($path, '/').'/' : $path);
+        return $this->join(array_merge([$base], func_get_args()));
+    }
+
+    /**
+     * Join the given paths together by the system's separator.
+     *
+     * @param  string[] $paths
+     * @return string
+     */
+    protected function join(array $paths)
+    {
+        $paths = array_map(function ($path) {
+            return trim($path, '/');
+        }, $paths);
+
+        return implode('/', array_filter($paths));
     }
 
     /**
      * Caches the given response if we determine that it should be cache.
      *
-     * @param  \Symfony\Component\HttpFoundation\Request  $response
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
      * @param  \Symfony\Component\HttpFoundation\Response  $response
      * @return $this
      */
@@ -103,7 +118,7 @@ class Cache
     /**
      * Determines whether the given request/response pair should be cached.
      *
-     * @param  \Symfony\Component\HttpFoundation\Request  $response
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
      * @param  \Symfony\Component\HttpFoundation\Response  $response
      * @return bool
      */
@@ -115,7 +130,7 @@ class Cache
     /**
      * Cache the response to a file.
      *
-     * @param  \Symfony\Component\HttpFoundation\Request  $response
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
      * @param  \Symfony\Component\HttpFoundation\Response  $response
      * @return void
      */
@@ -125,17 +140,22 @@ class Cache
 
         $this->files->makeDirectory($path, 0775, true, true);
 
-        $this->files->put($path.$file, $response->getContent(), true);
+        $this->files->put(
+            $this->join([$path, $file]),
+            $response->getContent(),
+            true
+        );
     }
 
     /**
-     * Remove a singles file on the cache directory.
+     * Remove the cached file for the given slug.
      *
+     * @param  string  $slug
      * @return bool
      */
-    public function delete($file)
+    public function forget($slug)
     {
-        return $this->files->delete($this->getCachePath() . $file);
+        return $this->files->delete($this->getCachePath($slug.'.html'));
     }
 
     /**

@@ -79,45 +79,45 @@ class CacheTest extends PHPUnit_Framework_TestCase
     public function testCanSetCachePathOnInstance()
     {
         $this->files->shouldReceive('makeDirectory')->once()
-                    ->with('/foo/bar/', 0775, true, true);
+                    ->with('foo/bar', 0775, true, true);
 
         $this->files->shouldReceive('put')->once()
-                    ->with('/foo/bar/baz.html', 'content', true);
+                    ->with('foo/bar/baz.html', 'content', true);
 
-        $this->cache->setCachePath('/foo/bar/');
+        $this->cache->setCachePath('foo/bar');
         $this->cache->cache(Request::create('baz', 'GET'), Response::create('content'));
 
-        $this->assertEquals('/foo/bar/', $this->cache->getCachePath());
-        $this->assertEquals('/foo/bar/baz/', $this->cache->getCachePath('baz'));
+        $this->assertEquals('foo/bar', $this->cache->getCachePath());
+        $this->assertEquals('foo/bar/baz', $this->cache->getCachePath('baz'));
     }
 
     public function testCanPullCachePathFromContainer()
     {
         $this->files->shouldReceive('makeDirectory')->once()
-                    ->with('/site/public/page-cache/foo/', 0775, true, true);
+                    ->with('site/public/page-cache/foo', 0775, true, true);
 
         $this->files->shouldReceive('put')->once()
-                    ->with('/site/public/page-cache/foo/bar.html', 'content', true);
+                    ->with('site/public/page-cache/foo/bar.html', 'content', true);
 
         $container = new Container;
-        $container->instance('path.public', '/site/public');
+        $container->instance('path.public', 'site/public');
 
         $this->cache->setContainer($container);
         $this->cache->cache(Request::create('foo/bar', 'GET'), Response::create('content'));
 
-        $this->assertEquals('/site/public/page-cache/', $this->cache->getCachePath());
-        $this->assertEquals('/site/public/page-cache/baz/', $this->cache->getCachePath('baz'));
+        $this->assertEquals('site/public/page-cache', $this->cache->getCachePath());
+        $this->assertEquals('site/public/page-cache/baz', $this->cache->getCachePath('baz'));
     }
 
     public function testCachesRootToSpecialFilename()
     {
         $this->files->shouldReceive('makeDirectory')->once()
-                    ->with('/page-cache/', 0775, true, true);
+                    ->with('page-cache', 0775, true, true);
 
         $this->files->shouldReceive('put')->once()
-                    ->with('/page-cache/pc__index__pc.html', 'content', true);
+                    ->with('page-cache/pc__index__pc.html', 'content', true);
 
-        $this->cache->setCachePath('/page-cache');
+        $this->cache->setCachePath('page-cache');
         $this->cache->cache(Request::create('/', 'GET'), Response::create('content'));
     }
 
