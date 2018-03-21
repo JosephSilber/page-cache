@@ -92,11 +92,25 @@ class Cache
      */
     protected function join(array $paths)
     {
-        $paths = array_map(function ($path) {
+        $trimmed = array_map(function ($path) {
             return trim($path, '/');
         }, $paths);
 
-        return implode('/', array_filter($paths));
+        return $this->matchRelativity(
+            $paths[0], implode('/', array_filter($trimmed))
+        );
+    }
+
+    /**
+     * Makes the target path absolute if the source path is also absolute.
+     *
+     * @param  string  $source
+     * @param  string  $target
+     * @return string
+     */
+    protected function matchRelativity($source, $target)
+    {
+        return $source[0] == '/' ? '/'.$target : $target;
     }
 
     /**

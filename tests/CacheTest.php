@@ -91,6 +91,21 @@ class CacheTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('foo/bar/baz', $this->cache->getCachePath('baz'));
     }
 
+    public function testUsesAbsolutePathWhenBasePathIsAbsolute()
+    {
+        $this->files->shouldReceive('makeDirectory')->once()
+                    ->with('/site/public/page-cache/foo', 0775, true, true);
+
+        $this->files->shouldReceive('put')->once()
+                    ->with('/site/public/page-cache/foo/bar.html', 'content', true);
+
+        $this->cache->setCachePath('/site/public/page-cache');
+        $this->cache->cache(Request::create('foo/bar', 'GET'), Response::create('content'));
+
+        $this->assertEquals('/site/public/page-cache', $this->cache->getCachePath());
+        $this->assertEquals('/site/public/page-cache/baz', $this->cache->getCachePath('baz'));
+    }
+
     public function testCanPullCachePathFromContainer()
     {
         $this->files->shouldReceive('makeDirectory')->once()
