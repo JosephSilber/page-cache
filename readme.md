@@ -30,7 +30,7 @@ Using the middleware included in this package, you can selectively cache the res
 Install the `page-cache` package with composer:
 
 ```
-$ composer require silber/page-cache
+$ composer require silber/page-cache dev-master
 ```
 
 ### Service Provider
