@@ -62,7 +62,7 @@ If you want to selectively cache only specific requests to your site, you should
 
 ```php
 protected $routeMiddleware = [
-    'page-cache' => Silber\PageCache\Middleware\CacheResponse::class,
+    'page-cache' => \Silber\PageCache\Middleware\CacheResponse::class,
     /* ... keep the existing mappings here */
 ];
 ```
