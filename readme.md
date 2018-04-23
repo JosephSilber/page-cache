@@ -11,6 +11,7 @@ This package allows you to easily cache responses as static files on disk for li
 - [Usage](#usage)
   - [Using the middleware](#using-the-middleware)
   - [Clearing the cache](#clearing-the-cache)
+  - [Customizing what to cache](#customizing-what-to-cache)
 - [License](#license)
 
 ---
@@ -141,6 +142,45 @@ You may optionally pass a URL slug to the command, to only delete the cache for 
 ```
 php artisan page-cache:clear {slug}
 ```
+
+### Customizing what to cache
+
+By default, all GET requests with a 200 HTTP response code are cached. If you want to change that, create your own middleware that extends the package's base middleware, and override the `shouldCache` method with your own logic.
+
+1. Run the `make:middleware` Artisan command to create your middleware file:
+
+    ```
+    php artisan make:middleware CacheResponse
+    ```
+
+2. Replace the contents of the file at `app/Http/Middleware/CacheResponse.php` with this:
+
+    ```php
+    <?php
+
+    namespace Silber\PageCache\Middleware;
+
+    use Symfony\Component\HttpFoundation\Request;
+    use Symfony\Component\HttpFoundation\Response;
+    use Silber\PageCache\Middleware\CacheResponse as BaseCacheResponse;
+
+    class CacheResponse extends BaseCacheResponse
+    {
+        protected function shouldCache(Request $request, Response $response)
+        {
+            // In this example, we don't ever want to cache pages if the
+            // URL contains a query string. So we first check for it,
+            // then defer back up to the parent's default checks.
+            if ($request->getQueryString()) {
+                return false;
+            }
+
+            return parent::shouldCache($request, $response);
+        }
+    }
+    ```
+
+3. Finally, update the middleware references in your `app/Http/Kernel.php` file, to point to your own middleware.
 
 ## License
 
