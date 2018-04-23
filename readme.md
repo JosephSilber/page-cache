@@ -158,7 +158,7 @@ By default, all GET requests with a 200 HTTP response code are cached. If you wa
     ```php
     <?php
 
-    namespace Silber\PageCache\Middleware;
+    namespace App\Http\Middleware;
 
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
