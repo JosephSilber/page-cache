@@ -5,6 +5,7 @@ namespace Silber\PageCache\Middleware;
 use Closure;
 use Silber\PageCache\Cache;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CacheResponse
 {
@@ -36,8 +37,22 @@ class CacheResponse
     {
         $response = $next($request);
 
-        $this->cache->cacheIfNeeded($request, $response);
+        if ($this->shouldCache($request, $response)) {
+            $this->cache->cache($request, $response);
+        }
 
         return $response;
+    }
+
+    /**
+     * Determines whether the given request/response pair should be cached.
+     *
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @param  \Symfony\Component\HttpFoundation\Response  $response
+     * @return bool
+     */
+    protected function shouldCache(Request $request, Response $response)
+    {
+        return $request->isMethod('GET') && $response->getStatusCode() == 200;
     }
 }
