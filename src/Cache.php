@@ -138,7 +138,10 @@ class Cache
      */
     public function shouldCache(Request $request, Response $response)
     {
-        return $request->isMethod('GET') && $response->getStatusCode() == 200;
+        return !$request->ajax() &&
+            !$request->pjax() &&
+            $request->isMethodCacheable() &&
+            $response->isSuccessful();
     }
 
     /**
