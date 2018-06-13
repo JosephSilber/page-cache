@@ -97,7 +97,8 @@ class Cache
         }, $paths);
 
         return $this->matchRelativity(
-            $paths[0], implode('/', array_filter($trimmed))
+            $paths[0],
+            implode('/', array_filter($trimmed))
         );
     }
 
