@@ -18,7 +18,7 @@ This package allows you to easily cache responses as static files on disk for li
 
 ## Introduction
 
-While static site builders such as [Jekyll](https://jekyllrb.com/) and [Jigsaw](http://jigsaw.tighten.co/) are extremely popular these days, dynamic PHP sites still offer a lot of value even for a site that is mostly static. A proper PHP site allows you to easily add dynamic functionality wherever needed, and also means that there's no build step involved in pushing updates to the site.
+While static site builders such as [Jekyll](https://jekyllrb.com/) and [Jigsaw](https://jigsaw.tighten.co/) are extremely popular these days, dynamic PHP sites still offer a lot of value even for a site that is mostly static. A proper PHP site allows you to easily add dynamic functionality wherever needed, and also means that there's no build step involved in pushing updates to the site.
 
 That said, for truly static pages on a site there really is no reason to have to boot up a full PHP app just to serve a static page. Serving a simple HTML page from disk is infinitely faster and less taxing on the server.
 
@@ -184,4 +184,4 @@ By default, all GET requests with a 200 HTTP response code are cached. If you wa
 
 ## License
 
-The Page Cache package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+The Page Cache package is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
