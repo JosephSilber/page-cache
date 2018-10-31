@@ -1,5 +1,10 @@
 # Laravel Page Cache
 
+[![Latest Stable Version][ico-version]][link-packagist]
+[![Build Status][ico-travis]][link-travis]
+[![Total Downloads][ico-downloads]][link-downloads]
+[![License][ico-license]](LICENSE.txt)
+
 This package allows you to easily cache responses as static files on disk for lightning fast page loads.
 
 - [Introduction](#introduction)
@@ -114,7 +119,7 @@ To make sure you don't commit your locally cached files to your git repository, 
 ### Using the middleware
 
 > **Note:** If you've added the middleware to the global `web` group, then all successful GET requests will automatically be cached. No need to put the middleware again directly on the route.
-> 
+>
 > If you instead registered it as a route middleware, you should use the middleware on whichever routes you want to be cached.
 
 To cache the response of a given request, use the `page-cache` middleware:
@@ -185,3 +190,12 @@ By default, all GET requests with a 200 HTTP response code are cached. If you wa
 ## License
 
 The Page Cache package is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+[ico-downloads]: https://poser.pugx.org/silber/page-cache/downloads
+[ico-license]: https://poser.pugx.org/silber/page-cache/license
+[ico-travis]: https://travis-ci.org/JosephSilber/page-cache.svg
+[ico-version]: https://poser.pugx.org/silber/page-cache/v/stable
+
+[link-downloads]: https://packagist.org/packages/silber/page-cache
+[link-packagist]: https://packagist.org/packages/silber/page-cache
+[link-travis]: https://travis-ci.org/JosephSilber/page-cache
