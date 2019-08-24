@@ -1,13 +1,17 @@
 <?php
 
+namespace Silber\PageCache\Tests;
+
+use Exception;
 use Mockery as m;
 use Silber\PageCache\Cache;
+use PHPUnit\Framework\TestCase;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CacheTest extends PHPUnit_Framework_TestCase
+class CacheTest extends TestCase
 {
     /**
      * The filesystem mock instance.

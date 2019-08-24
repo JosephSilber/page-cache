@@ -15,7 +15,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": ["tests"]
+        "psr-4": {
+            "Silber\\PageCache\\Tests\\": "tests"
+        }
     },
     "require": {
         "php": ">=5.5.9",
