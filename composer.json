@@ -1,7 +1,10 @@
 {
     "name": "silber/page-cache",
     "description": "Caches responses as static files on disk for lightning fast page loads..",
-    "keywords": ["laravel", "cache"],
+    "keywords": [
+        "laravel",
+        "cache"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -9,14 +12,6 @@
             "email": "contact@josephsilber.com"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Silber\\PageCache\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "classmap": ["tests"]
-    },
     "require": {
         "php": ">=5.5.9",
         "illuminate/contracts": "5.0 - 5.8",
@@ -38,5 +33,15 @@
                 "Silber\\PageCache\\LaravelServiceProvider"
             ]
         }
+    },
+    "autoload": {
+        "psr-4": {
+            "Silber\\PageCache\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests"
+        ]
     }
 }
