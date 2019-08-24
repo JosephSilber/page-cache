@@ -1,6 +1,6 @@
 {
     "name": "silber/page-cache",
-    "description": "Caches responses as static files on disk for lightning fast page loads..",
+    "description": "Caches responses as static files on disk for lightning fast page loads.",
     "keywords": [
         "laravel",
         "cache"
