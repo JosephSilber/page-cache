@@ -28,8 +28,8 @@
     "require-dev": {
         "illuminate/container": "5.0 - 5.8",
         "larapack/dd": "^1.1",
-        "mockery/mockery": "^1.2",
-        "phpunit/phpunit": "^6.5"
+        "mockery/mockery": "^0.9.5",
+        "phpunit/phpunit": "^4.8"
     },
     "suggest": {
         "illuminate/console": "Allows clearing the cache via artisan"
