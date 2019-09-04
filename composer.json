@@ -19,12 +19,12 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "illuminate/contracts": "5.0 - 5.8",
-        "illuminate/filesystem": "5.0 - 5.8",
+        "illuminate/contracts": "5.0 - 5.8|^6.0",
+        "illuminate/filesystem": "5.0 - 5.8|^6.0",
         "symfony/http-foundation": "2.6 - 4"
     },
     "require-dev": {
-        "illuminate/container": "5.0 - 5.8",
+        "illuminate/container": "5.0 - 5.8|^6.0",
         "larapack/dd": "^1.1",
         "mockery/mockery": "^0.9.5",
         "phpunit/phpunit": "^4.8"
