@@ -23,7 +23,7 @@
         "php": ">=5.5.9",
         "illuminate/contracts": "5.0 - 5.8|^6.0|^7.0",
         "illuminate/filesystem": "5.0 - 5.8|^6.0|^7.0",
-        "symfony/http-foundation": "2.6 - 4"
+        "symfony/http-foundation": "2.6 - 4|^5.0"
     },
     "require-dev": {
         "illuminate/container": "5.0 - 5.8|^6.0|^7.0",
