@@ -1,7 +1,7 @@
 # Laravel Page Cache
 
 [![Latest Stable Version][ico-version]][link-packagist]
-[![Build Status][ico-travis]][link-travis]
+<a href="https://github.com/JosephSilber/page-cache/actions"><img src="https://github.com/JosephSilber/page-cache/workflows/Tests/badge.svg" alt="Build Status"></a>
 [![Total Downloads][ico-downloads]][link-downloads]
 [![License][ico-license]](LICENSE.txt)
 
