@@ -5,6 +5,7 @@ namespace Silber\PageCache;
 use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -150,7 +151,7 @@ class Cache
      */
     public function cache(Request $request, Response $response)
     {
-        list($path, $file) = $this->getDirectoryAndFileNames($request);
+        list($path, $file) = $this->getDirectoryAndFileNames($request, $response);
 
         $this->files->makeDirectory($path, 0775, true, true);
 
@@ -169,7 +170,7 @@ class Cache
      */
     public function forget($slug)
     {
-        return $this->files->delete($this->getCachePath($slug.'.html'));
+        return $this->files->delete($this->getCachePath($slug.'.html')) || $this->files->delete($this->getCachePath($slug.'.json'));
     }
 
     /**
@@ -186,13 +187,14 @@ class Cache
      * Get the names of the directory and file.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Response $response
      * @return array
      */
-    protected function getDirectoryAndFileNames($request)
+    protected function getDirectoryAndFileNames($request, $response)
     {
         $segments = explode('/', ltrim($request->getPathInfo(), '/'));
 
-        $file = $this->aliasFilename(array_pop($segments)).'.html';
+        $file = $this->aliasFilename(array_pop($segments)) . '.' . $this->determineFileExtension($response);
 
         return [$this->getCachePath(implode('/', $segments)), $file];
     }
@@ -219,4 +221,19 @@ class Cache
             return $this->container->make('path.public').'/page-cache';
         }
     }
+
+    /**
+     * Determine file extension
+     *
+     * @return string
+     */
+    protected function determineFileExtension($response)
+    {
+        if ($response instanceof JsonResponse) {
+            return 'json';
+        }
+
+        return 'html';
+    }
+
 }

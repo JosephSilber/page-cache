@@ -89,7 +89,7 @@ In order to serve the static files directly once they've been cached, you need t
     }
 
     location / {
-        try_files $uri $uri/ /page-cache/$uri.html /index.php?$query_string;
+        try_files $uri $uri/ /page-cache/$uri.html /page-cache/$uri.json /index.php?$query_string;
     }
     ```
 
@@ -104,6 +104,8 @@ In order to serve the static files directly once they've been cached, you need t
     RewriteRule .? page-cache/pc__index__pc.html [L]
     RewriteCond %{DOCUMENT_ROOT}/page-cache%{REQUEST_URI}.html -f
     RewriteRule . page-cache%{REQUEST_URI}.html [L]
+    RewriteCond %{DOCUMENT_ROOT}/page-cache%{REQUEST_URI}.json -f
+    RewriteRule . page-cache%{REQUEST_URI}.json [L]
     ```
 
 ### Ignoring the cached files
