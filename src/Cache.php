@@ -3,11 +3,11 @@
 namespace Silber\PageCache;
 
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Container\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class Cache
 {
