@@ -3,9 +3,9 @@
 namespace Silber\PageCache;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -197,7 +197,10 @@ class Cache
     {
         $segments = explode('/', ltrim($request->getPathInfo(), '/'));
 
-        $file = $this->aliasFilename(array_pop($segments)) . '.' . $this->determineFileExtension($response);
+        $filename = $this->aliasFilename(array_pop($segments));
+        $extension = $this->guessFileExtension($response);
+
+        $file = "{$filename}.{$extension}";
 
         return [$this->getCachePath(implode('/', $segments)), $file];
     }
@@ -226,11 +229,13 @@ class Cache
     }
 
     /**
-     * Determine file extension
+     * Guess the correct file extension for the given response.
+     *
+     * Currently, only JSON and HTML are supported.
      *
      * @return string
      */
-    protected function determineFileExtension($response)
+    protected function guessFileExtension($response)
     {
         if ($response instanceof JsonResponse) {
             return 'json';
