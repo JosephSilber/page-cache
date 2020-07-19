@@ -10,6 +10,7 @@ use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CacheTest extends TestCase
 {
@@ -138,6 +139,23 @@ class CacheTest extends TestCase
 
         $this->cache->setCachePath('page-cache');
         $this->cache->cache(Request::create('/', 'GET'), Response::create('content'));
+    }
+
+    public function testCachesJsonResponsesWithJsonExtension()
+    {
+        $content = ['this' => 'is', 'json' => [1, 2, 3]];
+
+        $this->files->shouldReceive('makeDirectory')->once()
+                    ->with('page-cache', 0775, true, true);
+
+        $this->files->shouldReceive('put')->once()
+                    ->with('page-cache/get-json.json', json_encode($content), true);
+
+        $this->cache->setCachePath('page-cache');
+        $this->cache->cache(
+            Request::create('get-json', 'GET'),
+            JsonResponse::create($content)
+        );
     }
 
     /**
