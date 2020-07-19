@@ -170,7 +170,10 @@ class Cache
      */
     public function forget($slug)
     {
-        return $this->files->delete($this->getCachePath($slug.'.html')) || $this->files->delete($this->getCachePath($slug.'.json'));
+        $deletedHtml = $this->files->delete($this->getCachePath($slug.'.html'));
+        $deletedJson = $this->files->delete($this->getCachePath($slug.'.json'));
+
+        return $deletedHtml || $deletedJson;
     }
 
     /**
