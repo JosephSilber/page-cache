@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Container\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class Cache
 {
@@ -150,7 +151,7 @@ class Cache
      */
     public function cache(Request $request, Response $response)
     {
-        list($path, $file) = $this->getDirectoryAndFileNames($request);
+        list($path, $file) = $this->getDirectoryAndFileNames($request, $response);
 
         $this->files->makeDirectory($path, 0775, true, true);
 
@@ -169,7 +170,10 @@ class Cache
      */
     public function forget($slug)
     {
-        return $this->files->delete($this->getCachePath($slug.'.html'));
+        $deletedHtml = $this->files->delete($this->getCachePath($slug.'.html'));
+        $deletedJson = $this->files->delete($this->getCachePath($slug.'.json'));
+
+        return $deletedHtml || $deletedJson;
     }
 
     /**
@@ -186,13 +190,17 @@ class Cache
      * Get the names of the directory and file.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Response $response
      * @return array
      */
-    protected function getDirectoryAndFileNames($request)
+    protected function getDirectoryAndFileNames($request, $response)
     {
         $segments = explode('/', ltrim($request->getPathInfo(), '/'));
 
-        $file = $this->aliasFilename(array_pop($segments)).'.html';
+        $filename = $this->aliasFilename(array_pop($segments));
+        $extension = $this->guessFileExtension($response);
+
+        $file = "{$filename}.{$extension}";
 
         return [$this->getCachePath(implode('/', $segments)), $file];
     }
@@ -219,4 +227,21 @@ class Cache
             return $this->container->make('path.public').'/page-cache';
         }
     }
+
+    /**
+     * Guess the correct file extension for the given response.
+     *
+     * Currently, only JSON and HTML are supported.
+     *
+     * @return string
+     */
+    protected function guessFileExtension($response)
+    {
+        if ($response instanceof JsonResponse) {
+            return 'json';
+        }
+
+        return 'html';
+    }
+
 }
