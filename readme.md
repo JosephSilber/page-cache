@@ -150,7 +150,7 @@ You may optionally pass a URL slug to the command, to only delete the cache for 
 php artisan page-cache:clear {slug}
 ```
 
-You can also supply the `--force-clear` flag along with a slug to clear everything in a directory, for example if you have page-cache of shop/category/product1.html|product2.html|product3.html etc you can use `php artisan page-cache:clear shop/category --force-clear` to clear all the product cache files in that directory:
+You can also supply the `--force-clear` flag along with a slug to clear everything in a directory, for example if you have page-cache of shop/category/ with 3 product cache files (product1.html, product2.html, product3.html, etc) inside it, you can use `php artisan page-cache:clear shop/category --force-clear` to clear all the product cache files in that directory:
 
 ```
 php artisan page-cache:clear {slug} --force-clear
