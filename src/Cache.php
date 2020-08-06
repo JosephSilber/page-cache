@@ -181,9 +181,9 @@ class Cache
      *
      * @return bool
      */
-    public function clear()
+    public function clear($slug='')
     {
-        return $this->files->deleteDirectory($this->getCachePath(), true);
+        return $this->files->deleteDirectory($this->getCachePath($slug), true);
     }
 
     /**

@@ -12,7 +12,7 @@ class ClearCache extends Command
      *
      * @var string
      */
-    protected $signature = 'page-cache:clear {slug? : URL slug of page to delete}';
+    protected $signature = 'page-cache:clear {slug? : URL slug of page to delete} {--force-clear}';
 
     /**
      * The console command description.
@@ -29,12 +29,13 @@ class ClearCache extends Command
     public function handle()
     {
         $cache = $this->laravel->make(Cache::class);
-        $slug = $this->argument('slug');
+        $slug = $this->argument('slug') ?? '';
+        $force = $this->option('force-clear');
 
-        if ($slug) {
+        if ($slug && !$force) {
             $this->forget($cache, $slug);
         } else {
-            $this->clear($cache);
+            $this->clear($cache, $slug);
         }
     }
 
@@ -61,12 +62,12 @@ class ClearCache extends Command
      * @param  string  $slug
      * @return void
      */
-    public function clear(Cache $cache)
+    public function clear(Cache $cache, $slug)
     {
-        if ($cache->clear()) {
-            $this->info('Page cache cleared at '.$cache->getCachePath());
+        if ($cache->clear($slug)) {
+            $this->info('Page cache cleared at '.$cache->getCachePath($slug));
         } else {
-            $this->warn('Page cache not cleared at '.$cache->getCachePath());
+            $this->warn('Page cache not cleared at '.$cache->getCachePath($slug));
         }
     }
 }
