@@ -12,7 +12,7 @@ class ClearCache extends Command
      *
      * @var string
      */
-    protected $signature = 'page-cache:clear {slug? : URL slug of page to delete} {--force-clear}';
+    protected $signature = 'page-cache:clear {slug? : URL slug of page to delete} {--recursive}';
 
     /**
      * The console command description.
@@ -30,9 +30,9 @@ class ClearCache extends Command
     {
         $cache = $this->laravel->make(Cache::class);
         $slug = $this->argument('slug') ?? '';
-        $force = $this->option('force-clear');
+        $recursive = $this->option('recursive');
 
-        if ($slug && !$force) {
+        if ($slug && !$recursive) {
             $this->forget($cache, $slug);
         } else {
             $this->clear($cache, $slug);
