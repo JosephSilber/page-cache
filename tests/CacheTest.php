@@ -76,7 +76,7 @@ class CacheTest extends TestCase
 
     public function testCacheWithoutBasePathThrows()
     {
-        $this->setExpectedException(Exception::class);
+        $this->expectException(Exception::class);
 
         $this->cache->cache(Request::create('foo', 'GET'), Response::create('content'));
     }
