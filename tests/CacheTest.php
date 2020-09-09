@@ -44,13 +44,13 @@ class CacheTest extends TestCase
     {
         $this->assertCaches(
             Request::create('foo', 'GET'),
-            Response::create('foo-content')
+            new Response('foo-content')
         );
     }
 
     public function testOnlyCachesGetRequests()
     {
-        $response = Response::create('foo-content');
+        $response = new Response('foo-content');
 
         $this->assertDoesntCache(Request::create('foo', 'HEAD'), $response);
         $this->assertDoesntCache(Request::create('foo', 'OPTIONS'), $response);
@@ -64,21 +64,21 @@ class CacheTest extends TestCase
     {
         $request = Request::create('foo', 'GET');
 
-        $this->assertDoesntCache($request, Response::create('content', 301));
-        $this->assertDoesntCache($request, Response::create('content', 302));
-        $this->assertDoesntCache($request, Response::create('content', 400));
-        $this->assertDoesntCache($request, Response::create('content', 401));
-        $this->assertDoesntCache($request, Response::create('content', 403));
-        $this->assertDoesntCache($request, Response::create('content', 404));
-        $this->assertDoesntCache($request, Response::create('content', 422));
-        $this->assertDoesntCache($request, Response::create('content', 500));
+        $this->assertDoesntCache($request, new Response('content', 301));
+        $this->assertDoesntCache($request, new Response('content', 302));
+        $this->assertDoesntCache($request, new Response('content', 400));
+        $this->assertDoesntCache($request, new Response('content', 401));
+        $this->assertDoesntCache($request, new Response('content', 403));
+        $this->assertDoesntCache($request, new Response('content', 404));
+        $this->assertDoesntCache($request, new Response('content', 422));
+        $this->assertDoesntCache($request, new Response('content', 500));
     }
 
     public function testCacheWithoutBasePathThrows()
     {
         $this->setExpectedException(Exception::class);
 
-        $this->cache->cache(Request::create('foo', 'GET'), Response::create('content'));
+        $this->cache->cache(Request::create('foo', 'GET'), new Response('content'));
     }
 
     public function testCanSetCachePathOnInstance()
@@ -90,7 +90,7 @@ class CacheTest extends TestCase
                     ->with('foo/bar/baz.html', 'content', true);
 
         $this->cache->setCachePath('foo/bar');
-        $this->cache->cache(Request::create('baz', 'GET'), Response::create('content'));
+        $this->cache->cache(Request::create('baz', 'GET'), new Response('content'));
 
         $this->assertEquals('foo/bar', $this->cache->getCachePath());
         $this->assertEquals('foo/bar/baz', $this->cache->getCachePath('baz'));
@@ -105,7 +105,7 @@ class CacheTest extends TestCase
                     ->with('/site/public/page-cache/foo/bar.html', 'content', true);
 
         $this->cache->setCachePath('/site/public/page-cache');
-        $this->cache->cache(Request::create('foo/bar', 'GET'), Response::create('content'));
+        $this->cache->cache(Request::create('foo/bar', 'GET'), new Response('content'));
 
         $this->assertEquals('/site/public/page-cache', $this->cache->getCachePath());
         $this->assertEquals('/site/public/page-cache/baz', $this->cache->getCachePath('baz'));
@@ -123,7 +123,7 @@ class CacheTest extends TestCase
         $container->instance('path.public', 'site/public');
 
         $this->cache->setContainer($container);
-        $this->cache->cache(Request::create('foo/bar', 'GET'), Response::create('content'));
+        $this->cache->cache(Request::create('foo/bar', 'GET'), new Response('content'));
 
         $this->assertEquals('site/public/page-cache', $this->cache->getCachePath());
         $this->assertEquals('site/public/page-cache/baz', $this->cache->getCachePath('baz'));
@@ -138,7 +138,7 @@ class CacheTest extends TestCase
                     ->with('page-cache/pc__index__pc.html', 'content', true);
 
         $this->cache->setCachePath('page-cache');
-        $this->cache->cache(Request::create('/', 'GET'), Response::create('content'));
+        $this->cache->cache(Request::create('/', 'GET'), new Response('content'));
     }
 
     public function testCachesJsonResponsesWithJsonExtension()
@@ -154,7 +154,7 @@ class CacheTest extends TestCase
         $this->cache->setCachePath('page-cache');
         $this->cache->cache(
             Request::create('get-json', 'GET'),
-            JsonResponse::create($content)
+            new JsonResponse($content)
         );
     }
 
