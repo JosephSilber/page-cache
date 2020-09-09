@@ -28,14 +28,14 @@ class CacheTest extends TestCase
      */
     protected $cache;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->files = m::mock(Filesystem::class);
 
         $this->cache = new Cache($this->files);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }
