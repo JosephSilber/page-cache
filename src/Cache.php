@@ -177,13 +177,14 @@ class Cache
     }
 
     /**
-     * Fully clear the cache directory.
+     * Clear the full cache directory, or a subdirectory.
      *
+     * @param  string|null
      * @return bool
      */
-    public function clear($slug='')
+    public function clear($path = null)
     {
-        return $this->files->deleteDirectory($this->getCachePath($slug), true);
+        return $this->files->deleteDirectory($this->getCachePath($path), true);
     }
 
     /**

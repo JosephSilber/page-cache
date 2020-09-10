@@ -150,11 +150,24 @@ You may optionally pass a URL slug to the command, to only delete the cache for 
 php artisan page-cache:clear {slug}
 ```
 
-You can also supply the `--recursive` flag along with a slug to clear everything in a directory, for example if you have page-cache of shop/category/ with 3 product cache files (product1.html, product2.html, product3.html, etc) inside it, you can use `php artisan page-cache:clear shop/category --recursive` to clear all the product cache files in that directory:
+To clear everything under a given path, use the `--recursive` flag:
 
 ```
 php artisan page-cache:clear {slug} --recursive
 ```
+
+For example, imagine you have a category resource under `/categories`, with the following cached pages:
+
+- `/categories/1`
+- `/categories/2`
+- `/categories/5`
+
+To clear the cache for all categories, use `--recursive` with the `categories` path:
+
+```
+php artisan page-cache:clear categories --recursive
+```
+
 
 ### Customizing what to cache
 
