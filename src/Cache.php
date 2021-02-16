@@ -91,7 +91,7 @@ class Cache
      * @param  string[] $paths
      * @return string
      */
-    protected function join(array $paths)
+    public function join(array $paths)
     {
         $trimmed = array_map(function ($path) {
             return trim($path, '/');
@@ -156,6 +156,7 @@ class Cache
         $this->files->makeDirectory($path, 0775, true, true);
 
         $this->files->put(
+//            $this->join([$path, md5($file)]),
             $this->join([$path, $file]),
             $response->getContent(),
             true
@@ -201,6 +202,10 @@ class Cache
         $filename = $this->aliasFilename(array_pop($segments));
         $extension = $this->guessFileExtension($response);
 
+        //add becuase log url rpg
+        $filename = md5($filename);
+//        echo $filename;
+
         $file = "{$filename}.{$extension}";
 
         return [$this->getCachePath(implode('/', $segments)), $file];
@@ -212,7 +217,7 @@ class Cache
      * @param  string  $filename
      * @return string
      */
-    protected function aliasFilename($filename)
+    public function aliasFilename($filename)
     {
         return $filename ?: 'pc__index__pc';
     }
@@ -236,7 +241,7 @@ class Cache
      *
      * @return string
      */
-    protected function guessFileExtension($response)
+    public function guessFileExtension($response)
     {
         if ($response instanceof JsonResponse) {
             return 'json';
