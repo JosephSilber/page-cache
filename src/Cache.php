@@ -238,8 +238,16 @@ class Cache
      */
     protected function guessFileExtension($response)
     {
-        if ($response instanceof JsonResponse) {
+        $contentType = $response->headers->get('Content-Type');
+
+        if ($response instanceof JsonResponse ||
+            $contentType == 'application/json'
+        ) {
             return 'json';
+        }
+
+        if (in_array($contentType, ['text/xml', 'application/xml'])) {
+            return 'xml';
         }
 
         return 'html';

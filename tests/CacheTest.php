@@ -158,6 +158,47 @@ class CacheTest extends TestCase
         );
     }
 
+    public function testCachesResponsesWithJsonHeaderWithJsonExtension()
+    {
+        $json = json_encode(['this' => 'is', 'json' => [1, 2, 3]]);
+
+        $this->files->shouldReceive('makeDirectory')->once()
+                    ->with('page-cache', 0775, true, true);
+
+        $this->files->shouldReceive('put')->once()
+                    ->with('page-cache/get-json.json', $json, true);
+
+        $this->cache->setCachePath('page-cache');
+        $this->cache->cache(
+            Request::create('get-json', 'GET'),
+            Response::create($json, 200, ['Content-Type' => 'application/json'])
+        );
+    }
+
+    public function testCachesResponsesWithXmlHeaderWithXmlExtension()
+    {
+        $xml = 'This is XML. Prove me wrong.';
+
+        $this->files->shouldReceive('makeDirectory')->twice()
+                    ->with('page-cache', 0775, true, true);
+
+        $this->files->shouldReceive('put')->once()
+                    ->with('page-cache/get-xml-text.xml', $xml, true);
+
+        $this->files->shouldReceive('put')->once()
+                    ->with('page-cache/get-xml-application.xml', $xml, true);
+
+        $this->cache->setCachePath('page-cache');
+        $this->cache->cache(
+            Request::create('get-xml-text', 'GET'),
+            Response::create($xml, 200, ['Content-Type' => 'text/xml'])
+        );
+        $this->cache->cache(
+            Request::create('get-xml-application', 'GET'),
+            Response::create($xml, 200, ['Content-Type' => 'application/xml'])
+        );
+    }
+
     /**
      * Assert that the given request/response pair are cached.
      *
