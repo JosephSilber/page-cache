@@ -256,7 +256,14 @@ class Cache
         if ($this->container && $this->container->bound('path.public')) {
             $cachePath = $this->container->make('path.public').'/static/';
             if ($this->locale) {
-                $cachePath = $cachePath . $this->locale . '/';
+                $sites = config('statamic.sites.sites');
+                $subFolder = '';
+                foreach ($sites as $site) {
+                    if ($site['locale'] === $this->locale) {
+                        $subFolder = parse_url($site['url'])['host'] . '/';
+                    }
+                }
+                $cachePath = $cachePath . $subFolder . '/';
             }
 
             return $cachePath;
