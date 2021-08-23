@@ -32,13 +32,32 @@ class ClearCache extends Command
         $recursive = $this->option('recursive');
         $slug = $this->argument('slug');
 
+
         if (!$slug) {
-            $this->clear($cache);
+            foreach ($this->getSites() as $site) {
+                $cache = $this->laravel->make(Cache::class);
+                $cache->setLocale($site['locale']);
+                $this->clear($cache);
+            }
         } else if ($recursive) {
-            $this->clear($cache, $slug);
+            foreach ($this->getSites() as $site) {
+                $cache = $this->laravel->make(Cache::class);
+                $cache->setLocale($site['locale']);
+                $this->clear($cache, $slug);
+            }
         } else {
-            $this->forget($cache, $slug);
+            foreach ($this->getSites() as $site) {
+                $cache = $this->laravel->make(Cache::class);
+                $cache->setLocale($site['locale']);
+                $this->forget($cache, $slug);
+            }
+
         }
+    }
+
+    private function getSites()
+    {
+        return config('statamic.sites.sites');
     }
 
     /**

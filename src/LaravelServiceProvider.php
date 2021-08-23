@@ -15,11 +15,11 @@ class LaravelServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands(ClearCache::class);
-
-        $this->app->singleton(Cache::class, function () {
+        $locale = $this->app->getLocale();
+        $this->app->singleton(Cache::class, function () use ($locale) {
             $instance = new Cache($this->app->make('files'));
 
-            return $instance->setContainer($this->app);
+            return $instance->setLocale($locale)->setContainer($this->app);
         });
     }
 }

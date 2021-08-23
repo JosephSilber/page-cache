@@ -32,6 +32,29 @@ class Cache
      */
     protected $cachePath = null;
 
+
+    /**
+     * The locale of the site cache.
+     *
+     * @var string|null
+     */
+    protected $locale = null;
+
+
+    /**
+     * The type of page to cache (used for cache index). Use page | plp | pdp
+     *
+     * @var string|null
+     */
+    protected $pageType = null;
+
+    /**
+     * Time to cache in minutes
+     *
+     * @var int|null
+     */
+    protected $expireAt = null;
+
     /**
      * Constructor.
      *
@@ -160,6 +183,12 @@ class Cache
             $response->getContent(),
             true
         );
+
+        \App\Models\CacheIndex::create([
+            'path' => $this->join([$path, $file]),
+            'page_type' => $this->pageType,
+            'expire_at' => \Carbon\Carbon::now()->addMinutes($this->expireAt),
+        ]);
     }
 
     /**
@@ -225,7 +254,12 @@ class Cache
     protected function getDefaultCachePath()
     {
         if ($this->container && $this->container->bound('path.public')) {
-            return $this->container->make('path.public').'/page-cache';
+            $cachePath = $this->container->make('path.public').'/static/';
+            if ($this->locale) {
+                $cachePath = $cachePath . $this->locale . '/';
+            }
+
+            return $cachePath;
         }
     }
 
@@ -251,6 +285,60 @@ class Cache
         }
 
         return 'html';
+    }
+
+    /**
+     * @param string|null $locale
+     * @return Cache
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+        return $this;
+    }
+
+    /**
+     * @param string|null $pageType
+     * @return Cache
+     */
+    public function setPageType($pageType)
+    {
+        $this->pageType = $pageType;
+        return $this;
+    }
+
+    /**
+     * @param int|null $expireAt
+     * @return Cache
+     */
+    public function setExpireAt($expireAt)
+    {
+        $this->expireAt = $expireAt;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getExpireAt()
+    {
+        return $this->expireAt;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPageType()
+    {
+        return $this->pageType;
     }
 
 }

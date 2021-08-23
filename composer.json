@@ -1,12 +1,12 @@
 {
-    "name": "silber/page-cache",
+    "name": "lamalamanl/page-cache",
     "description": "Caches responses as static files on disk for lightning fast page loads.",
     "keywords": ["laravel", "cache"],
     "license": "MIT",
     "authors": [
         {
-            "name": "Joseph Silber",
-            "email": "contact@josephsilber.com"
+            "name": "Edwin Fennema",
+            "email": "edwin@lamalama.nl"
         }
     ],
     "autoload": {
