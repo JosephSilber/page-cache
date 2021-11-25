@@ -28,7 +28,7 @@
     "require-dev": {
         "illuminate/container": "5.0 - 5.8|^6.0|^7.0|^8.0",
         "mockery/mockery": "^0.9.5",
-        "phpunit/phpunit": "^4.8",
+        "phpunit/phpunit": "^4.8|^9.5",
         "symfony/var-dumper": "^4.4|^5.0"
     },
     "suggest": {
