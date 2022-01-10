@@ -214,7 +214,7 @@ class Cache
      */
     protected function aliasFilename($filename)
     {
-        return $filename ?: 'pc__index__pc';
+        return urldecode($filename) ?: 'pc__index__pc';
     }
 
     /**
