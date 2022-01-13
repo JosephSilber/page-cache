@@ -202,8 +202,9 @@ class Cache
         $extension = $this->guessFileExtension($response);
 
         $file = "{$filename}.{$extension}";
+        $path = urldecode($this->getCachePath(implode('/', $segments)));
 
-        return [$this->getCachePath(implode('/', $segments)), $file];
+        return [$path, $file];
     }
 
     /**
