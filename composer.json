@@ -40,5 +40,7 @@
                 "Silber\\PageCache\\LaravelServiceProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
