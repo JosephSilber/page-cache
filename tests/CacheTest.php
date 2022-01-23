@@ -28,14 +28,14 @@ class CacheTest extends TestCase
      */
     protected $cache;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->files = m::mock(Filesystem::class);
 
         $this->cache = new Cache($this->files);
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         m::close();
     }
@@ -76,7 +76,11 @@ class CacheTest extends TestCase
 
     public function testCacheWithoutBasePathThrows()
     {
-        $this->setExpectedException(Exception::class);
+        if (method_exists($this, 'expectException')) {
+            $this->expectException(Exception::class);
+        } else {
+            $this->setExpectedException(Exception::class);
+        }
 
         $this->cache->cache(Request::create('foo', 'GET'), new Response('content'));
     }
@@ -171,7 +175,7 @@ class CacheTest extends TestCase
         $this->cache->setCachePath('page-cache');
         $this->cache->cache(
             Request::create('get-json', 'GET'),
-            Response::create($json, 200, ['Content-Type' => 'application/json'])
+            new Response($json, 200, ['Content-Type' => 'application/json'])
         );
     }
 
@@ -191,11 +195,11 @@ class CacheTest extends TestCase
         $this->cache->setCachePath('page-cache');
         $this->cache->cache(
             Request::create('get-xml-text', 'GET'),
-            Response::create($xml, 200, ['Content-Type' => 'text/xml'])
+            new Response($xml, 200, ['Content-Type' => 'text/xml'])
         );
         $this->cache->cache(
             Request::create('get-xml-application', 'GET'),
-            Response::create($xml, 200, ['Content-Type' => 'application/xml'])
+            new Response($xml, 200, ['Content-Type' => 'application/xml'])
         );
     }
 
