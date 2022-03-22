@@ -118,6 +118,63 @@ To make sure you don't commit your locally cached files to your git repository, 
 /public/page-cache
 ```
 
+### Laravel Valet
+
+If you are using [Laravel Valet](https://laravel.com/docs/valet) and want to use the cache in your local environment, you need to create a [Local Driver](https://laravel.com/docs/9.x/valet#local-drivers). 
+
+In your application's root directory, create a new `LocalValetDriver.php` file.
+
+```php
+<?php
+
+class LocalValetDriver extends LaravelValetDriver
+{
+    /**
+     * Determine if the driver serves the request.
+     *
+     * @param string $sitePath
+     * @param string $siteName
+     * @param string $uri
+     * @return bool
+     */
+    public function serves($sitePath, $siteName, $uri)
+    {
+        return $_SERVER['REQUEST_METHOD'] === 'GET' &&
+            is_dir("$sitePath/public/page-cache") &&
+            parent::serves($sitePath, $siteName, $uri);
+    }
+
+    /**
+     * Determine if the incoming request is for a static file.
+     *
+     * @param string $sitePath
+     * @param string $siteName
+     * @param string $uri
+     * @return string|false
+     */
+    public function isStaticFile($sitePath, $siteName, $uri)
+    {
+        if ($uri === '/') {
+            $uri = 'pc__index__pc';
+        }
+
+        if (file_exists($cachePath = $sitePath . '/public/page-cache/' . $uri . '.html')) {
+            return $cachePath;
+        }
+
+        if (file_exists($cachePath = $sitePath . '/public/page-cache/' . $uri . '.json')) {
+            return $cachePath;
+        }
+
+        if (file_exists($cachePath = $sitePath . '/public/page-cache/' . $uri . '.xml')) {
+            return $cachePath;
+        }
+        
+        return false;
+    }
+}
+```
+
 ## Usage
 
 ### Using the middleware
