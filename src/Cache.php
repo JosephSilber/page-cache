@@ -172,8 +172,9 @@ class Cache
     {
         $deletedHtml = $this->files->delete($this->getCachePath($slug.'.html'));
         $deletedJson = $this->files->delete($this->getCachePath($slug.'.json'));
+        $deletedXml = $this->files->delete($this->getCachePath($slug.'.xml'));
 
-        return $deletedHtml || $deletedJson;
+        return $deletedHtml || $deletedJson || $deletedXml;
     }
 
     /**
