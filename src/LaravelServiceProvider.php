@@ -22,4 +22,11 @@ class LaravelServiceProvider extends ServiceProvider
             return $instance->setLocale($locale)->setContainer($this->app);
         });
     }
+
+    public function boot()
+    {
+        $this->publishes([
+            __DIR__.'/../config/courier.php' => config_path('courier.php'),
+        ]);
+    }
 }
