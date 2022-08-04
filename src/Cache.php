@@ -45,10 +45,11 @@ class Cache
 
     /**
      * The type of page to cache (used for cache index). Use page | plp | pdp
+     * The default is page
      *
      * @var string|null
      */
-    protected $pageType = null;
+    protected $pageType = 'page';
 
     /**
      * Time to cache in minutes
@@ -56,6 +57,16 @@ class Cache
      * @var int|null
      */
     protected $expireAt = null;
+
+
+    /**
+     * If this prop set only requests whom have one or more
+     * of the defined params will be cached
+     *
+     * @var array
+     */
+    private $querystringWhitelist = [];
+
 
     /**
      * Constructor.
@@ -261,6 +272,9 @@ class Cache
         $urlParts = parse_url($url);
         $pathParts = pathinfo($urlParts['path']);
         $slug = $pathParts['basename'];
+        if (substr($slug, -1) !== '/') {
+            $slug .= '/';
+        }
         $query = $this->calculateQuery($urlParts);
         $extension = $this->guessFileExtension($response);
         if ($this->isBasenameTooLong($basename = $slug.'_'.$query.'.'.$extension)) {
@@ -305,6 +319,16 @@ class Cache
         return strlen($basename) > config('page-cache.max_filename_length', 255);
     }
 
+    /**
+     * @param array $querystringWhitelist
+     * @return Cache
+     */
+    public function setQuerystringWhitelist(array $querystringWhitelist): Cache
+    {
+        $this->querystringWhitelist = $querystringWhitelist;
+        return $this;
+    }
+
     private function isLongQueryStringPath($path)
     {
         return Str::contains($path, '_lqs_');
@@ -332,6 +356,21 @@ class Cache
 
             return $cachePath;
         }
+    }
+
+    public function mustBeCacheBasedOnWhiteList(\Symfony\Component\HttpFoundation\Request $request) : bool
+    {
+        if (!$this->querystringWhitelist || !is_array($this->querystringWhitelist) || count($this->querystringWhitelist) < 1) {
+            return true;
+        }
+
+        foreach ($request->all() as $param) {
+            if(in_array($param, $this->querystringWhitelist)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

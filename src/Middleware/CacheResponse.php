@@ -36,18 +36,8 @@ class CacheResponse
     public function handle(Request $request, Closure $next, $pageType = null, $minutesToCache = null) // ...$args = alle arguments from the service provider
     {
         $response = $next($request);
-
         if ($this->shouldCache($request, $response)) {
-            // TODO: Zorg dat er gecached wordt in de juiste folder
-            //dd($this->cache->getPageType());
-            if (is_null($this->cache->getPageType())) {
-                // Set the page type if not set before
-                $this->cache->setPageType($pageType ? $pageType : 'page');
-            }
-            if (is_null($this->cache->getPageType())) {
-                // Set the expire time if not set before
-                $this->cache->setExpireAt($minutesToCache ? $pageType : config('page-cache.expire_time' . $this->cache->getPageType()));
-            }
+            $this->cache->setExpireAt($minutesToCache ? $pageType : config('page-cache.expire_time' . $this->cache->getPageType()));
             $this->cache->cache($request, $response);
         }
 
@@ -63,6 +53,20 @@ class CacheResponse
      */
     protected function shouldCache(Request $request, Response $response)
     {
-        return $request->isMethod('GET') && $response->getStatusCode() == 200;
+        if($response->getStatusCode() != 200) {
+            return false;
+        }
+
+        if(!$request->isMethod('GET')) {
+            return false;
+        }
+
+        if (!$this->cache->mustBeCacheBasedOnWhiteList($request)) {
+            return false;
+        }
+
+        return true;
     }
+
+
 }
