@@ -1,7 +1,10 @@
 {
     "name": "silber/page-cache",
     "description": "Caches responses as static files on disk for lightning fast page loads.",
-    "keywords": ["laravel", "cache"],
+    "keywords": [
+        "laravel",
+        "cache"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -21,13 +24,13 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "illuminate/contracts": "5.0 - 5.8|^6.0|^7.0|^8.0|^9.0",
-        "illuminate/filesystem": "5.0 - 5.8|^6.0|^7.0|^8.0|^9.0",
+        "illuminate/contracts": "5.0 - 5.8|^6.0|^7.0|^8.0|^9.0|^10.0",
+        "illuminate/filesystem": "5.0 - 5.8|^6.0|^7.0|^8.0|^9.0|^10.0",
         "symfony/http-foundation": "2.6 - 4|^5.0|^6.0"
     },
     "require-dev": {
-        "illuminate/container": "5.0 - 5.8|^6.0|^7.0|^8.0|^9.0",
-        "mockery/mockery": "^0.9.5",
+        "illuminate/container": "5.0 - 5.8|^6.0|^7.0|^8.0|^9.0|^10.0",
+        "mockery/mockery": "^0.9.5|^1.4.4",
         "phpunit/phpunit": "^4.8|^9.5",
         "symfony/var-dumper": "^4.4|^5.0|^6.0"
     },
