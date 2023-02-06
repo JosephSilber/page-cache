@@ -1,4 +1,4 @@
-name: Test PHP 8.x
+name: Test PHP 7.x
 
 on:
   push:
@@ -15,8 +15,15 @@ jobs:
 
     strategy:
       matrix:
-        laravel: [6.*, 7.*, 8.*, 9.*, 10.*]
-        php: [8.0, 8.1]
+        laravel: [8.*, 9.*, 10.*]
+        php: [7.3, 8.0, 8.1]
+        exclude:
+          - laravel: 9.*
+            php: 7.3
+          - laravel: 10.*
+            php: 7.3
+          - laravel: 10.*
+            php: 8.0
       fail-fast: false
 
     name: Laravel ${{ matrix.laravel }}, PHP ${{ matrix.php }}
