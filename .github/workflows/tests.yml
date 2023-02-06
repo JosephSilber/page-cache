@@ -17,6 +17,7 @@ jobs:
       matrix:
         laravel: [8.*, 9.*, 10.*]
         php: [7.3, 8.0, 8.1]
+        dependency-version: [prefer-lowest, prefer-stable]
         exclude:
           - laravel: 9.*
             php: 7.3
@@ -26,7 +27,7 @@ jobs:
             php: 8.0
       fail-fast: false
 
-    name: Laravel ${{ matrix.laravel }}, PHP ${{ matrix.php }}
+    name: Laravel ${{ matrix.laravel }}, PHP ${{ matrix.php }}, ${{ matrix.dependency-version }}
 
     steps:
       - name: Check out code
@@ -41,7 +42,7 @@ jobs:
       - name: Install dependencies
         run: |
             composer require "illuminate/contracts:${{ matrix.laravel }}" "illuminate/filesystem:${{ matrix.laravel }}" "illuminate/container:${{ matrix.laravel }}" --no-interaction --no-update
-            composer update --prefer-stable --prefer-dist --no-interaction --no-suggest
+            composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
       - name: Run tests
         run: vendor/bin/phpunit

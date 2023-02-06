@@ -37,6 +37,8 @@
     "suggest": {
         "illuminate/console": "Allows clearing the cache via artisan"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "extra": {
         "laravel": {
             "providers": [
