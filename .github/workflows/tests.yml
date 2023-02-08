@@ -1,4 +1,4 @@
-name: Test PHP 7.x
+name: Tests
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         laravel: [8.*, 9.*, 10.*]
-        php: [7.3, 8.0, 8.1]
+        php: [7.3, 8.0, 8.1, 8.2]
         exclude:
           - laravel: 9.*
             php: 7.3
