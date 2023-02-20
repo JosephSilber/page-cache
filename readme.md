@@ -67,11 +67,13 @@ The middleware is smart enough to only cache responses with a 200 HTTP status co
 If you want to selectively cache only specific requests to your site, you should instead add a new mapping to the `routeMiddleware` array:
 
 ```php
-protected $routeMiddleware = [
+protected $middlewareAliases = [
     'page-cache' => \Silber\PageCache\Middleware\CacheResponse::class,
     /* ... keep the existing mappings here */
 ];
 ```
+
+> **Note**: Before Laravel 10, `middlewareAliases` was called `routeMiddleware`. They work the exact same way. 
 
 Once registered, you can then [use this middleware on individual routes](#using-the-middleware).
 
