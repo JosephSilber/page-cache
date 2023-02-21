@@ -197,7 +197,7 @@ class Cache
      */
     protected function getDirectoryAndFileNames($request, $response)
     {
-        $segments = explode('/', ltrim($request->getPathInfo(), '/'));
+        $segments = explode('/', trim($request->getPathInfo(), '/'));
 
         $filename = $this->aliasFilename(array_pop($segments));
         $extension = $this->guessFileExtension($response);
