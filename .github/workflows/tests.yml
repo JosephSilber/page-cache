@@ -3,10 +3,10 @@ name: Tests
 on:
   push:
     paths-ignore:
-      - 'readme.md'
+      - readme.md
   pull_request:
     paths-ignore:
-      - 'readme.md'
+      - readme.md
   release:
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        laravel: [8.*, 9.*, 10.*]
+        laravel: ['8.*', '9.*', '10.*', '11.*']
         php: [7.3, 8.0, 8.1, 8.2]
         exclude:
           - laravel: 9.*
@@ -24,6 +24,12 @@ jobs:
             php: 7.3
           - laravel: 10.*
             php: 8.0
+          - laravel: 11.*
+            php: 7.3
+          - laravel: 11.*
+            php: 8.0
+          - laravel: 11.*
+            php: 8.1
       fail-fast: false
 
     name: Laravel ${{ matrix.laravel }}, PHP ${{ matrix.php }}
@@ -40,8 +46,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-            composer require "illuminate/contracts:${{ matrix.laravel }}" "illuminate/filesystem:${{ matrix.laravel }}" "illuminate/container:${{ matrix.laravel }}" --no-interaction --no-update
-            composer update --prefer-stable --prefer-dist --no-interaction --no-suggest
+          composer require "illuminate/contracts:${{ matrix.laravel }}" "illuminate/filesystem:${{ matrix.laravel }}" "illuminate/container:${{ matrix.laravel }}" --no-interaction --no-update
+          composer update --prefer-stable --prefer-dist --no-interaction --no-suggest
 
       - name: Run tests
         run: vendor/bin/phpunit
