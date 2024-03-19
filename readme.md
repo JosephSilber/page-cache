@@ -33,9 +33,9 @@ Using the middleware included in this package, you can selectively cache the res
 
 ## Installation
 
-> **Note**: The current version of the `page-cache` packagerequires PHP 8.2+ and Laravel 11+.
+> **Note**: The current version of Page Cache requires PHP 8.2+ and Laravel 11+.
 >
-> If you're on Laravel v5-v10, use [`page-cache` v1.0.9](https://github.com/JosephSilber/page-cache/tree/v1.0.9).
+> If you're on Laravel v5-v10, use [Page Cache v1.0.9](https://github.com/JosephSilber/page-cache/tree/v1.0.9).
 
 Install the `page-cache` package with composer:
 
