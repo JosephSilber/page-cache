@@ -17,14 +17,14 @@ class CacheTest extends TestCase
     /**
      * The filesystem mock instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $files;
 
     /**
      * The cache instance.
      *
-     * @var \Silber\PageCache\Cache
+     * @var Cache
      */
     protected $cache;
 
@@ -135,6 +135,8 @@ class CacheTest extends TestCase
 
     public function testCachesRootToSpecialFilename()
     {
+        $this->expectNotToPerformAssertions();
+
         $this->files->shouldReceive('makeDirectory')->once()
                     ->with('page-cache', 0775, true, true);
 
@@ -147,6 +149,8 @@ class CacheTest extends TestCase
 
     public function testCachesJsonResponsesWithJsonExtension()
     {
+        $this->expectNotToPerformAssertions();
+
         $content = ['this' => 'is', 'json' => [1, 2, 3]];
 
         $this->files->shouldReceive('makeDirectory')->once()
@@ -164,6 +168,8 @@ class CacheTest extends TestCase
 
     public function testCachesResponsesWithJsonHeaderWithJsonExtension()
     {
+        $this->expectNotToPerformAssertions();
+
         $json = json_encode(['this' => 'is', 'json' => [1, 2, 3]]);
 
         $this->files->shouldReceive('makeDirectory')->once()
@@ -181,6 +187,8 @@ class CacheTest extends TestCase
 
     public function testCachesResponsesWithXmlHeaderWithXmlExtension()
     {
+        $this->expectNotToPerformAssertions();
+        
         $xml = 'This is XML. Prove me wrong.';
 
         $this->files->shouldReceive('makeDirectory')->twice()
