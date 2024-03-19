@@ -33,20 +33,14 @@ Using the middleware included in this package, you can selectively cache the res
 
 ## Installation
 
+> **Note**: The current version of the `page-cache` packagerequires PHP 8.2+ and Laravel 11+.
+>
+> If you're on Laravel v5-v10, use [`page-cache` v1.0.9](https://github.com/JosephSilber/page-cache/tree/v1.0.9).
+
 Install the `page-cache` package with composer:
 
 ```
 $ composer require silber/page-cache
-```
-
-### Service Provider
-
-> **Note**: If you're using Laravel 5.5+, the service provider will be registered automatically. You can simply skip this step entirely.
-
-Open `config/app.php` and add a new item to the `providers` array:
-
-```php
-Silber\PageCache\LaravelServiceProvider::class,
 ```
 
 ### Middleware
@@ -72,8 +66,6 @@ protected $middlewareAliases = [
     /* ... keep the existing mappings here */
 ];
 ```
-
-> **Note**: Before Laravel 10, `middlewareAliases` was called `routeMiddleware`. They work the exact same way. 
 
 Once registered, you can then [use this middleware on individual routes](#using-the-middleware).
 
