@@ -1,9 +1,9 @@
 # Laravel Page Cache
 
-<a href="https://github.com/JosephSilber/page-cache/actions"><img src="https://github.com/JosephSilber/page-cache/workflows/Tests/badge.svg" alt="Build Status"></a>
-[![Latest Stable Version][ico-version]][link-packagist]
-[![Total Downloads][ico-downloads]][link-downloads]
-[![License][ico-license]](LICENSE.txt)
+[![Build Status][icon-build]][link-build]
+[![Latest Stable Version][icon-version]][link-packagist]
+[![Total Downloads][icon-downloads]][link-downloads]
+[![License][icon-license]](LICENSE.txt)
 
 This package allows you to easily cache responses as static files on disk for lightning fast page loads.
 
@@ -106,7 +106,7 @@ In order to serve the static files directly once they've been cached, you need t
 
 ### Ignoring the cached files
 
-To make sure you don't commit your locally cached files to your git repository, add this line to your `.gitignore` file:
+To make sure you don't commit your locally-cached files to your git repository, add this line to your `.gitignore` file:
 
 ```
 /public/page-cache
@@ -118,7 +118,7 @@ To make sure you don't commit your locally cached files to your git repository, 
 
 > **Note:** If you've added the middleware to the global `web` group, then all successful GET requests will automatically be cached. No need to put the middleware again directly on the route.
 >
-> If you instead registered it as a route middleware, you should use the middleware on whichever routes you want to be cached.
+> If you instead registered it in `middlewareAliases`, you should use the middleware on whichever routes you want to be cached.
 
 To cache the response of a given request, use the `page-cache` middleware:
 
@@ -126,7 +126,7 @@ To cache the response of a given request, use the `page-cache` middleware:
 Route::middleware('page-cache')->get('posts/{slug}', 'PostController@show');
 ```
 
-Every post will now be cached to a file under the `public/page-cache` directory, closely matching the URL structure of the request. All subsequent  requests for this post will be served directly from disk, never even hitting your app!
+Every post will now be cached to a file under the `public/page-cache` directory, closely matching the URL structure of the request. All subsequent requests for this post will be served directly from disk, never even hitting your app!
 
 ### Clearing the cache
 
@@ -136,7 +136,7 @@ Since the responses are cached to disk as static files, any updates to those pag
 php artisan page-cache:clear
 ```
 
-As a rule of thumb, it's good practice to add this to your deployment script. That way, whenever you push an update to your site the page cache will automatically be cleared.
+As a rule of thumb, it's good practice to add this to your deployment script. That way, whenever you push an update to your site, the page cache will automatically be cleared.
 
 If you're using [Forge](https://forge.laravel.com)'s Quick Deploy feature, you should add this line to the end of your Deploy Script. This'll ensure that the cache is cleared whenever you push an update to your site.
 
@@ -208,11 +208,11 @@ By default, all GET requests with a 200 HTTP response code are cached. If you wa
 
 The Page Cache package is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-[ico-downloads]: https://poser.pugx.org/silber/page-cache/downloads
-[ico-license]: https://poser.pugx.org/silber/page-cache/license
-[ico-travis]: https://travis-ci.org/JosephSilber/page-cache.svg
-[ico-version]: https://poser.pugx.org/silber/page-cache/v/stable
+[icon-build]: https://github.com/JosephSilber/page-cache/workflows/Tests/badge.svg
+[icon-downloads]: https://poser.pugx.org/silber/page-cache/downloads
+[icon-license]: https://poser.pugx.org/silber/page-cache/license
+[icon-version]: https://poser.pugx.org/silber/page-cache/v/stable
 
+[link-build]: https://github.com/JosephSilber/page-cache/actions
 [link-downloads]: https://packagist.org/packages/silber/page-cache
 [link-packagist]: https://packagist.org/packages/silber/page-cache
-[link-travis]: https://travis-ci.org/JosephSilber/page-cache
