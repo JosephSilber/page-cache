@@ -58,7 +58,7 @@ protected $middlewareGroups = [
 
 The middleware is smart enough to only cache responses with a 200 HTTP status code, and only for GET requests.
 
-If you want to selectively cache only specific requests to your site, you should instead add a new mapping to the `routeMiddleware` array:
+If you want to selectively cache only specific requests to your site, you should instead add a new mapping to the `middlewareAliases` array:
 
 ```php
 protected $middlewareAliases = [
