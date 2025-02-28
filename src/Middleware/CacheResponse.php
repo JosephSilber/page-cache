@@ -31,13 +31,15 @@ class CacheResponse
      *
      * @param  \Symfony\Component\HttpFoundation\Request  $request
      * @param  \Closure  $next
+     * @param  string|null  $path
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $path = null)
     {
         $response = $next($request);
 
         if ($this->shouldCache($request, $response)) {
+            $this->cache->setCachePath($path);
             $this->cache->cache($request, $response);
         }
 

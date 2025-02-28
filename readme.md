@@ -17,6 +17,7 @@ This package allows you to easily cache responses as static files on disk for li
   - [Using the middleware](#using-the-middleware)
   - [Clearing the cache](#clearing-the-cache)
   - [Customizing what to cache](#customizing-what-to-cache)
+  - [Multiple domains](#multiple-domains)
 - [License](#license)
 
 ---
@@ -203,6 +204,21 @@ By default, all GET requests with a 200 HTTP response code are cached. If you wa
     ```
 
 3. Finally, update the middleware references in your `app/Http/Kernel.php` file, to point to your own middleware.
+
+### Multiple Domains
+
+Out of the box, Page Cache stores the cached files in a single directory based off the file path. When using caching on a Laravel application that has mutiple domains these files will conflict with each other. The `page-cache` middleware supports an argument that allows you to configure the directory of where to store the cached file. You can store these in a subdirectory (`page-cache/laravel`) or store them in different directories (`page-cache-laravel`).
+
+```php
+Route::domain('laravel.com')->('page-cache:page-cache/laravel')->get('/', 'LaravelController@show')->name('home');
+Route::domain('forge.laravel.com')->('page-cache:page-cache/forge')->get('/', 'ForgeController@show');
+```
+
+When using directories outside of the default `page-cache` directory, you will need to set the cache path prior to forgetting the files, and the artisan command with no longer work (until it is updated to support custom cache paths).
+
+```php
+tap(app()->make(Cache::class))->setCachePath('page-cache-laravel')->forget(route('home', [], false));
+```
 
 ## License
 
