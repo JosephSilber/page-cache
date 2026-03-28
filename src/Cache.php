@@ -200,6 +200,7 @@ class Cache
         $segments = explode('/', trim($request->getPathInfo(), '/'));
 
         $filename = $this->aliasFilename(array_pop($segments));
+        $filename = rawurldecode($filename);
         $extension = $this->guessFileExtension($response);
 
         $file = "{$filename}.{$extension}";
