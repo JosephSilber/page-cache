@@ -202,6 +202,10 @@ class Cache
         $filename = $this->aliasFilename(array_pop($segments));
         $extension = $this->guessFileExtension($response);
 
+        // Remove the extension from the filename
+        // example: Route::get('manifest.json') -> manifest
+        $filename = str_replace('.' . $extension, '', $filename);
+
         $file = "{$filename}.{$extension}";
 
         return [$this->getCachePath(implode('/', $segments)), $file];
