@@ -170,6 +170,8 @@ class Cache
      */
     public function forget($slug)
     {
+        $slug = $this->aliasFilename(trim($slug, '/'));
+
         $deletedHtml = $this->files->delete($this->getCachePath($slug.'.html'));
         $deletedJson = $this->files->delete($this->getCachePath($slug.'.json'));
         $deletedXml = $this->files->delete($this->getCachePath($slug.'.xml'));

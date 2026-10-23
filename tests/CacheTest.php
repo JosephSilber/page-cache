@@ -250,6 +250,22 @@ class CacheTest extends TestCase
         $this->assertCachesWithExtension('application/ld+json; charset=utf-8', 'json');
     }
 
+    public function testForgetsRootPage()
+    {
+        $this->files->shouldReceive('delete')->once()
+                    ->with('page-cache/pc__index__pc.html')->andReturn(true);
+
+        $this->files->shouldReceive('delete')->once()
+                    ->with('page-cache/pc__index__pc.json')->andReturn(false);
+
+        $this->files->shouldReceive('delete')->once()
+                    ->with('page-cache/pc__index__pc.xml')->andReturn(false);
+
+        $this->cache->setCachePath('page-cache');
+
+        $this->assertTrue($this->cache->forget('/'));
+    }
+
     /**
      * Assert that the given request/response pair are cached.
      *
