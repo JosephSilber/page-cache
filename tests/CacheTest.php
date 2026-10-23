@@ -211,6 +211,29 @@ class CacheTest extends TestCase
         );
     }
 
+    public function testCachesPreparedTextXmlResponsesWithXmlExtension()
+    {
+        $this->expectNotToPerformAssertions();
+
+        $this->assertCachesWithExtension('text/xml', 'xml');
+    }
+
+    public function testIgnoresContentTypeParametersWhenGuessingExtension()
+    {
+        $this->expectNotToPerformAssertions();
+
+        $this->assertCachesWithExtension('application/json; charset=utf-8', 'json');
+        $this->assertCachesWithExtension('application/xml; charset=utf-8', 'xml');
+    }
+
+    public function testMatchesContentTypesCaseInsensitively()
+    {
+        $this->expectNotToPerformAssertions();
+
+        $this->assertCachesWithExtension('Application/JSON', 'json');
+        $this->assertCachesWithExtension('TEXT/XML', 'xml');
+    }
+
     /**
      * Assert that the given request/response pair are cached.
      *
@@ -233,5 +256,30 @@ class CacheTest extends TestCase
     protected function assertDoesntCache($request, $response)
     {
         $this->assertFalse($this->cache->shouldCache($request, $response));
+    }
+
+    /**
+     * Assert that a response with the given content type is cached with the given extension.
+     *
+     * The response is prepared first, just like Laravel's router
+     * prepares every response before the middleware sees it.
+     *
+     * @param  string  $contentType
+     * @param  string  $extension
+     * @return void
+     */
+    protected function assertCachesWithExtension($contentType, $extension)
+    {
+        $request = Request::create('page', 'GET');
+        $response = new Response('content', 200, ['Content-Type' => $contentType]);
+
+        $this->files->shouldReceive('makeDirectory')->once()
+                    ->with('page-cache', 0775, true, true);
+
+        $this->files->shouldReceive('put')->once()
+                    ->with("page-cache/page.{$extension}", 'content', true);
+
+        $this->cache->setCachePath('page-cache');
+        $this->cache->cache($request, $response->prepare($request));
     }
 }

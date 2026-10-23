@@ -240,19 +240,31 @@ class Cache
      */
     protected function guessFileExtension($response)
     {
-        $contentType = $response->headers->get('Content-Type');
+        $mediaType = $this->getMediaType($response);
 
         if ($response instanceof JsonResponse ||
-            $contentType == 'application/json'
+            $mediaType == 'application/json'
         ) {
             return 'json';
         }
 
-        if (in_array($contentType, ['text/xml', 'application/xml'])) {
+        if (in_array($mediaType, ['text/xml', 'application/xml'])) {
             return 'xml';
         }
 
         return 'html';
     }
 
+    /**
+     * Get the lowercased media type of the given response, without any parameters.
+     *
+     * @param  \Symfony\Component\HttpFoundation\Response  $response
+     * @return string
+     */
+    protected function getMediaType($response)
+    {
+        $contentType = $response->headers->get('Content-Type', '');
+
+        return strtolower(trim(explode(';', $contentType)[0]));
+    }
 }
