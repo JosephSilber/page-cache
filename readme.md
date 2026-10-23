@@ -9,7 +9,6 @@ This package allows you to easily cache responses as static files on disk for li
 
 - [Introduction](#introduction)
 - [Installation](#installation)
-  - [Service Provider](#service-provider)
   - [Middleware](#middleware)
   - [URL rewriting](#url-rewriting)
   - [Ignoring the cached files](#ignoring-the-cached-files)
