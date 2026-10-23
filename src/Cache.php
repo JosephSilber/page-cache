@@ -235,6 +235,10 @@ class Cache
      *
      * Currently, HTML, JSON, and XML are supported.
      *
+     * Structured syntax suffix types, such as
+     * `application/rss+xml` and `application/feed+json`,
+     * get the extension of their base syntax.
+     *
      * @param  \Symfony\Component\HttpFoundation\Response  $response
      * @return string
      */
@@ -243,12 +247,15 @@ class Cache
         $mediaType = $this->getMediaType($response);
 
         if ($response instanceof JsonResponse ||
-            $mediaType == 'application/json'
+            $mediaType == 'application/json' ||
+            str_ends_with($mediaType, '+json')
         ) {
             return 'json';
         }
 
-        if (in_array($mediaType, ['text/xml', 'application/xml'])) {
+        if (in_array($mediaType, ['text/xml', 'application/xml']) ||
+            str_ends_with($mediaType, '+xml')
+        ) {
             return 'xml';
         }
 

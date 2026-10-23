@@ -234,6 +234,22 @@ class CacheTest extends TestCase
         $this->assertCachesWithExtension('TEXT/XML', 'xml');
     }
 
+    public function testCachesXmlSuffixTypesWithXmlExtension()
+    {
+        $this->expectNotToPerformAssertions();
+
+        $this->assertCachesWithExtension('application/rss+xml', 'xml');
+        $this->assertCachesWithExtension('application/atom+xml; charset=utf-8', 'xml');
+    }
+
+    public function testCachesJsonSuffixTypesWithJsonExtension()
+    {
+        $this->expectNotToPerformAssertions();
+
+        $this->assertCachesWithExtension('application/feed+json', 'json');
+        $this->assertCachesWithExtension('application/ld+json; charset=utf-8', 'json');
+    }
+
     /**
      * Assert that the given request/response pair are cached.
      *
