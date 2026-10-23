@@ -19,7 +19,7 @@ class CacheResponse
     /**
      * Constructor.
      *
-     * @var \Silber\PageCache\Cache  $cache
+     * @param  \Silber\PageCache\Cache  $cache
      */
     public function __construct(Cache $cache)
     {

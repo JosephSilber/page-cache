@@ -35,7 +35,7 @@ class Cache
     /**
      * Constructor.
      *
-     * @var \Illuminate\Filesystem\Filesystem  $files
+     * @param  \Illuminate\Filesystem\Filesystem  $files
      */
     public function __construct(Filesystem $files)
     {
@@ -115,7 +115,7 @@ class Cache
     }
 
     /**
-     * Caches the given response if we determine that it should be cache.
+     * Caches the given response if we determine that it should be cached.
      *
      * @param  \Symfony\Component\HttpFoundation\Request  $request
      * @param  \Symfony\Component\HttpFoundation\Response  $response
@@ -180,7 +180,7 @@ class Cache
     /**
      * Clear the full cache directory, or a subdirectory.
      *
-     * @param  string|null
+     * @param  string|null  $path
      * @return bool
      */
     public function clear($path = null)
@@ -191,8 +191,8 @@ class Cache
     /**
      * Get the names of the directory and file.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Http\Response $response
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @param  \Symfony\Component\HttpFoundation\Response  $response
      * @return array
      */
     protected function getDirectoryAndFileNames($request, $response)
@@ -233,8 +233,9 @@ class Cache
     /**
      * Guess the correct file extension for the given response.
      *
-     * Currently, only JSON and HTML are supported.
+     * Currently, HTML, JSON, and XML are supported.
      *
+     * @param  \Symfony\Component\HttpFoundation\Response  $response
      * @return string
      */
     protected function guessFileExtension($response)
