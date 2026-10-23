@@ -45,26 +45,26 @@ $ composer require silber/page-cache
 
 ### Middleware
 
-Open `app/Http/Kernel.php` and add a new item to the `web` middleware group:
+Open `bootstrap/app.php` and add the middleware to the `web` middleware group:
 
 ```php
-protected $middlewareGroups = [
-    'web' => [
+->withMiddleware(function (Middleware $middleware): void {
+    $middleware->web(prepend: [
         \Silber\PageCache\Middleware\CacheResponse::class,
-        /* ... keep the existing middleware here */
-    ],
-];
+    ]);
+})
 ```
 
 The middleware is smart enough to only cache responses with a 200 HTTP status code, and only for GET requests.
 
-If you want to selectively cache only specific requests to your site, you should instead add a new mapping to the `middlewareAliases` array:
+If you want to selectively cache only specific requests to your site, you should instead register a middleware alias:
 
 ```php
-protected $middlewareAliases = [
-    'page-cache' => \Silber\PageCache\Middleware\CacheResponse::class,
-    /* ... keep the existing mappings here */
-];
+->withMiddleware(function (Middleware $middleware): void {
+    $middleware->alias([
+        'page-cache' => \Silber\PageCache\Middleware\CacheResponse::class,
+    ]);
+})
 ```
 
 Once registered, you can then [use this middleware on individual routes](#using-the-middleware).
@@ -118,12 +118,21 @@ To make sure you don't commit your locally-cached files to your git repository, 
 
 > **Note:** If you've added the middleware to the global `web` group, then all successful GET requests will automatically be cached. No need to put the middleware again directly on the route.
 >
-> If you instead registered it in `middlewareAliases`, you should use the middleware on whichever routes you want to be cached.
+> If you instead registered the `page-cache` alias, you should use the middleware on whichever routes you want to be cached.
 
 To cache the response of a given request, use the `page-cache` middleware:
 
 ```php
-Route::middleware('page-cache')->get('posts/{slug}', 'PostController@show');
+Route::middleware('page-cache')->get('posts/{slug}', [PostController::class, 'show']);
+```
+
+You may also use the middleware class directly, without registering an alias:
+
+```php
+use App\Http\Controllers\PostController;
+use Silber\PageCache\Middleware\CacheResponse;
+
+Route::middleware(CacheResponse::class)->get('posts/{slug}', [PostController::class, 'show']);
 ```
 
 Every post will now be cached to a file under the `public/page-cache` directory, closely matching the URL structure of the request. All subsequent requests for this post will be served directly from disk, never even hitting your app!
@@ -202,7 +211,7 @@ By default, all GET requests with a 200 HTTP response code are cached. If you wa
     }
     ```
 
-3. Finally, update the middleware references in your `app/Http/Kernel.php` file, to point to your own middleware.
+3. Finally, update the middleware references in your `bootstrap/app.php` file, to point to your own middleware.
 
 ## License
 
